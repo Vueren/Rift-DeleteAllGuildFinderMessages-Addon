@@ -4,9 +4,10 @@ Description = "Adds the '/gfdelete' command to delete all guild finder messages 
 
 Author = "Vueren"
 Email = "vueren@pm.me"
-Version = "1.2"
+Version = "1.3"
 Environment = "4.5"
 
 RunOnStartup = {
 	"DeleteAllGuildFinderMessages.lua"
+
 }
