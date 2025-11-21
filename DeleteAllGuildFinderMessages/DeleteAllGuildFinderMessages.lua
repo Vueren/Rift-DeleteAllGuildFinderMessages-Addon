@@ -1,34 +1,9 @@
--- Following from Imhothar's string split 'cause I'm too lazy to implement myself
-local strfind = string.find
-local strsub = string.sub
-
---- Split a string into substrings according to a provided separator.
--- @param sep The separator string.
--- @param patterned If this parameter evaluates to true the separation is performed on search patterns, otherwise plain strings.
--- @return A table with all strings as values in the order they were found.
--- @usage string.split("/a:b/c:d/:", ":")
--- returns { "/a", "b/c", "d/", "" }
--- @usage string.split("/a:b/c:d/:", "[:/]", true)
--- returns { "", "a", "b", "c", "d", "", "" }
--- @usage string.split("/a:b/c:d/:", "[:/]")
--- returns { "/a:b/c:d/:" }
-local function stringSplit(sep, patterned)
-	local list = {}
-	local pos = 1
-	if(strfind("", sep, 1)) then -- this would result in endless loops
-		error("delimiter matches empty string!", 2)
-	end
-	while 1 do
-		local first, last = strfind(self, sep, pos, not patterned)
-		if(first) then -- found?
-			list[#list + 1] = strsub(self, pos, first - 1)
-			pos = last + 1
-		else
-			list[#list + 1] = strsub(self, pos)
-			break
-		end
-	end
-	return list
+local function split(str)
+    local t = {}
+    for s in string.gmatch(str, "%S+") do
+        t[#t+1] = s
+    end
+    return t
 end
 
 local function slashHandler(eventHandle, params)
@@ -38,13 +13,14 @@ local function slashHandler(eventHandle, params)
         return
     end
 
-    local sanitizedArgs = stringSplit(string.lower(string.gsub(params, '%s+', '')), '%s+', true)
+    params = params and params:lower() or ""
+    local args = split(params)
 
     local mailList = Inspect.Mail.List()
     for mail,_ in pairs(mailList) do
         local inspectedMail = Inspect.Mail.Detail(mail)
         if inspectedMail.subject == 'Guild Finder message' or inspectedMail.subject == 'Message de la recherche de guilde' or inspectedMail.subject == 'Gildensucher-Nachricht' then
-            if sanitizedArgs[1] == 'force' or inspectedMail.read then
+            if args[1] == 'force' or inspectedMail.read then
                 print("Deleting mail from " .. inspectedMail.from .. " | Subject: " .. inspectedMail.subject)
                 Command.Mail.Delete(mail)
             end
