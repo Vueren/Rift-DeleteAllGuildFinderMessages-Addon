@@ -12,7 +12,7 @@ local strsub = string.sub
 -- returns { "", "a", "b", "c", "d", "", "" }
 -- @usage string.split("/a:b/c:d/:", "[:/]")
 -- returns { "/a:b/c:d/:" }
-function string:split(sep, patterned)
+local function string:split(sep, patterned)
 	local list = {}
 	local pos = 1
 	if(strfind("", sep, 1)) then -- this would result in endless loops
@@ -54,3 +54,4 @@ local function slashHandler(eventHandle, params)
 end
 
 Command.Event.Attach(Command.Slash.Register('gfdelete'), slashHandler, 'DeleteAllGuildFinderMails')
+
