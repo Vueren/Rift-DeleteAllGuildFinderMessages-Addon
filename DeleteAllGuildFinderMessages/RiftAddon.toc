@@ -1,0 +1,12 @@
+Identifier = "DeleteAllGuildFinderMessages"
+Name = "DeleteAllGuildFinderMessages"
+Description = "Adds the '/gfdelete' command to delete all guild finder messages that have been marked as Read. '/gfdelete force' to ignore the read flag."
+
+Author = "Vueren"
+Email = "vueren@pm.me"
+Version = "1.2"
+Environment = "4.5"
+
+RunOnStartup = {
+	"DeleteAllGuildFinderMessages.lua"
+}
